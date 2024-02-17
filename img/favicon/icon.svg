@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+	<style type="text/css">
+		.st0 {
+			fill: #4d26b3;
+		}
+		@media (prefers-color-scheme: dark) {
+			.st0 {
+				fill: #b1e82d;
+			}
+		}
+	</style>
+	<circle class="st0" cx="8" cy="8" r="6"/>
+</svg>
