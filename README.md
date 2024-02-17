@@ -8,3 +8,4 @@ Important URLs:
 2. https://indieweb.org/The-Open-Graph-protocol#Does_not_support_SVG_images
 3. https://developers.facebook.com/docs/sharing/webmasters/images/
 4. https://kaydee.net/blog/open-graph-image/
+5. https://icon.kitchen/
