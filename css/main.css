@@ -44,7 +44,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap");
 
 * {
-  outline: 1px solid limegreen !important;
+  /* outline: 1px solid limegreen !important; */
 }
 
 :root {
@@ -74,6 +74,7 @@
   --t-opp-bright--light: #ffffff;
   --t-opp-default--light: #f2f2f2;
   --t-opp-muted--light: #c2bfd1;
+  --gradient-background--light: none;
   /* dark color scheme */
   --base--dark: #090516;
   --base-inner--dark: #121226;
@@ -92,6 +93,13 @@
   --t-opp-bright--dark: #111111;
   --t-opp-default--dark: #2b2b2b;
   --t-opp-muted--dark: #4c4c4c;
+  --gradient-background--dark: 
+      /* Bottom layer */
+      /* linear-gradient(to right, #050646, #020321) top left no-repeat, */
+      /* Mid-layer */
+      radial-gradient(circle farthest-corner at top right, #B929EA 0%, transparent 20%) top right no-repeat,
+      /* Top layer */
+      radial-gradient(circle farthest-corner at bottom right, #2C27CC 10%, transparent 20%) bottom right no-repeat;
   /* permanent colors */
   --per-base: #130e28;
   --per-base-rgb: 19, 14, 40;
@@ -124,6 +132,7 @@
     --t-opp-bright: var(--t-opp-bright--light);
     --t-opp-default: var(--t-opp-default--light);
     --t-opp-muted: var(--t-opp-muted--light);
+    --gradient-background: var(--gradient-background--light);
     color-scheme: light;
   }
 }
@@ -146,6 +155,7 @@
     --t-opp-bright: var(--t-opp-bright--dark);
     --t-opp-default: var(--t-opp-default--dark);
     --t-opp-muted: var(--t-opp-muted--dark);
+    --gradient-background: var(--gradient-background--dark);
     color-scheme: dark;
   }
 }
@@ -167,6 +177,7 @@
   --t-opp-bright: var(--t-opp-bright--light);
   --t-opp-default: var(--t-opp-default--light);
   --t-opp-muted: var(--t-opp-muted--light);
+  --gradient-background: var(--gradient-background--light);
 }
 
 [color-scheme=dark] {
@@ -187,6 +198,7 @@
   --t-opp-bright: var(--t-opp-bright--dark);
   --t-opp-default: var(--t-opp-default--dark);
   --t-opp-muted: var(--t-opp-muted--dark);
+  --gradient-background: var(--gradient-background--dark);
 }
 
 /* ------------------------------------------------*/
@@ -2135,6 +2147,8 @@ form textarea:required:valid {
   left: 0;
   width: 100%;
   height: 100%;
+  background: var(--gradient-background);
+  background-blend-mode: overlay, overlay, overlay;
 }
 
 .intro__content {
