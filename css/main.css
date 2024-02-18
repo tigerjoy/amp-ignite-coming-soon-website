@@ -1958,9 +1958,19 @@ form textarea:required:valid {
     left: 0;
   }
 }
+@media only screen and (min-width: 1200px) and (max-width: 1300px) {
+  .header__logo {
+    width: 200px;
+  }
+}
 @media only screen and (min-width: 1400px) {
   .intro__header {
     height: 54px;
+  }
+}
+@media only screen and (min-width: 1400px) and (max-width: 1500px) {
+  .header__logo {
+    width: 250px;
   }
 }
 @media only screen and (min-width: 1600px) {
