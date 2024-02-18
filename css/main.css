@@ -40,8 +40,9 @@
  * ------------------------------------------------
  * Table of Contents End
  * ------------------------------------------------ */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap"); */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
 
 * {
   /* outline: 1px solid limegreen !important; */
@@ -212,12 +213,16 @@
   background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363");
 }
 
+/* Home Page Sliding Images */
+
 .split-slide-1 {
-  background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363");
+  /* background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363"); */
+  background-image: url("../img/backgrounds/1440x1620_03.webp");
 }
 
 .split-slide-2 {
-  background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363");
+  /* background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363"); */
+  background-image: url("../img/backgrounds/1440x1620_05.webp");
 }
 
 .split-slide-3 {
@@ -333,7 +338,8 @@ body {
   position: relative;
   min-width: 360px;
   overflow-x: hidden !important;
-  font: normal 300 1.8rem/1.6 "Inter", sans-serif;
+  /* font: normal 300 1.8rem/1.6 "Inter", sans-serif; */
+  font: normal 300 1.8rem/1.6 "Rajdhani", sans-serif;
   text-rendering: optimizeLegibility;
   background-color: var(--base);
   color: var(--t-bright);
@@ -773,7 +779,8 @@ body.loaded .top-controls {
 }
 
 h1 {
-  font: normal 500 4.6rem/1.08 "Oswald", sans-serif;
+  /* font: normal 500 4.6rem/1.08 "Oswald", sans-serif; */
+  font: normal 500 4.6rem/1.08 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-bright);
 }
@@ -843,7 +850,8 @@ h1 .colored {
 
 .headline__subtitle {
   display: inline-block;
-  font: normal 400 2rem/1.2 "Inter", sans-serif;
+  /* font: normal 400 2rem/1.2 "Inter", sans-serif; */
+  font: normal 400 2rem/1.2 "Rajdhani", sans-serif;
   color: var(--t-bright);
   margin-bottom: 2.8rem;
 }
@@ -906,7 +914,8 @@ h1 .colored {
 
 .numblock__number {
   display: block;
-  font: normal 400 3rem/1.08 "Oswald", sans-serif;
+  /* font: normal 400 3rem/1.08 "Oswald", sans-serif; */
+  font: normal 400 3rem/1.08 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-bright);
 }
@@ -929,7 +938,8 @@ h1 .colored {
 
 .numblock__descr {
   display: block;
-  font: normal 400 1.6rem/1.2 "Inter", sans-serif;
+  /* font: normal 400 1.6rem/1.2 "Inter", sans-serif; */
+  font: normal 400 1.6rem/1.2 "Rajdhani", sans-serif;
   color: var(--t-muted);
   margin-top: 0.3rem;
 }
@@ -946,7 +956,8 @@ h1 .colored {
 }
 
 h2 {
-  font: normal 500 4rem/1.1 "Oswald", sans-serif;
+  /* font: normal 500 4rem/1.1 "Oswald", sans-serif; */
+  font: normal 500 4rem/1.1 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-bright);
 }
@@ -971,7 +982,8 @@ h2 .colored {
 
 .section__subtitle {
   display: inline-block;
-  font: normal 400 2rem/1.2 "Inter", sans-serif;
+  /* font: normal 400 2rem/1.2 "Inter", sans-serif; */
+  font: normal 400 2rem/1.2 "Rajdhani", sans-serif;
   color: var(--t-bright);
   margin-bottom: 2.8rem;
 }
@@ -1002,7 +1014,8 @@ h2 .colored {
 }
 
 h3 {
-  font: normal 500 3.6rem/1.14 "Oswald", sans-serif;
+  /* font: normal 500 3.6rem/1.14 "Oswald", sans-serif; */
+  font: normal 500 3.6rem/1.14 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-bright);
 }
@@ -1035,7 +1048,8 @@ h3 .colored {
 }
 
 h4 {
-  font: normal 500 3.6rem/1.2 "Oswald", sans-serif;
+  /* font: normal 500 3.6rem/1.2 "Oswald", sans-serif; */
+  font: normal 500 3.6rem/1.2 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-bright);
 }
@@ -1044,14 +1058,16 @@ h4 .colored {
 }
 
 h5 {
-  font: normal 500 3rem/1.2 "Oswald", sans-serif;
+  /* font: normal 500 3rem/1.2 "Oswald", sans-serif; */
+  font: normal 500 3rem/1.2 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-default);
 }
 h5 small {
   display: block;
   margin-top: 0.3rem;
-  font: normal 400 1.6rem/1.2 "Oswald", sans-serif;
+  /* font: normal 400 1.6rem/1.2 "Oswald", sans-serif; */
+  font: normal 400 1.6rem/1.2 "Rajdhani", sans-serif;
   letter-spacing: 0.04rem;
   color: var(--accent);
 }
@@ -1060,7 +1076,8 @@ h5 .colored {
 }
 
 h6 {
-  font: normal 500 2.6rem/1.2 "Oswald", sans-serif;
+  /* font: normal 500 2.6rem/1.2 "Oswald", sans-serif; */
+  font: normal 500 2.6rem/1.2 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-default);
 }
@@ -1069,14 +1086,16 @@ h6 .colored {
 }
 
 p {
-  font: normal 400 2rem/1.5 "Inter", sans-serif;
+  /* font: normal 400 2rem/1.5 "Inter", sans-serif; */
+  font: normal 400 2rem/1.5 "Rajdhani", sans-serif;
   color: var(--t-muted);
 }
 p.small {
   font-size: 1.8rem;
 }
 p.small a {
-  font: normal 400 1.8rem/1.5 "Inter", sans-serif;
+  /* font: normal 400 1.8rem/1.5 "Inter", sans-serif; */
+  font: normal 400 1.8rem/1.5 "Rajdhani", sans-serif;
   color: var(--t-muted);
 }
 @media only screen and (min-width: 1400px) {
@@ -1087,13 +1106,15 @@ p.small a {
     font-size: 1.8rem;
   }
   p.small a {
-    font: normal 400 1.8rem/1.5 "Inter", sans-serif;
+    /* font: normal 400 1.8rem/1.5 "Inter", sans-serif; */
+    font: normal 400 1.8rem/1.5 "Rajdhani", sans-serif;
     color: var(--t-muted);
   }
 }
 
 .tools {
-  font: normal 500 3rem/1.2 "Oswald", sans-serif;
+  /* font: normal 500 3rem/1.2 "Oswald", sans-serif; */
+  font: normal 500 3rem/1.2 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-default);
 }
@@ -1148,7 +1169,8 @@ p.small a {
 }
 
 .popup-title__title {
-  font: normal 500 3.6rem/1.14 "Oswald", sans-serif;
+  /* font: normal 500 3.6rem/1.14 "Oswald", sans-serif; */
+  font: normal 500 3.6rem/1.14 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-per-bright-light);
 }
@@ -1225,7 +1247,8 @@ p.small a {
   padding: 0 2rem;
   -moz-border-radius: 2.5rem;
        border-radius: 2.5rem;
-  font: normal 400 1.6rem/5rem "Inter", sans-serif;
+  /* font: normal 400 1.6rem/5rem "Inter", sans-serif; */
+  font: normal 400 1.6rem/5rem "Rajdhani", sans-serif;
 }
 .btn-default i, .btn-default span {
   position: relative;
@@ -1286,7 +1309,8 @@ p.small a {
   -moz-border-radius: 0;
        border-radius: 0;
   border: none;
-  font: normal 400 3rem/1.08 "Oswald", sans-serif;
+  /* font: normal 400 3rem/1.08 "Oswald", sans-serif; */
+  font: normal 400 3rem/1.08 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-bright);
 }
@@ -1301,7 +1325,8 @@ p.small a {
     padding: 0 2rem;
     -moz-border-radius: 2.5rem;
          border-radius: 2.5rem;
-    font: normal 400 1.6rem/5rem "Inter", sans-serif;
+    /* font: normal 400 1.6rem/5rem "Inter", sans-serif; */
+    font: normal 400 1.6rem/5rem "Rajdhani", sans-serif;
     text-transform: none;
     border: 1px solid var(--t-default);
     background-color: transparent;
@@ -1421,7 +1446,8 @@ p.small a {
     padding: 0 2rem;
     -moz-border-radius: 2.5rem;
          border-radius: 2.5rem;
-    font: normal 400 1.6rem/5rem "Inter", sans-serif;
+    /* font: normal 400 1.6rem/5rem "Inter", sans-serif; */
+    font: normal 400 1.6rem/5rem "Rajdhani", sans-serif;
   }
   .btn-round-mobile i {
     display: none;
@@ -1469,7 +1495,8 @@ p.small a {
 .cta__caption {
   display: block;
   margin-right: 2rem;
-  font: normal 400 3.4rem/0.9 "Oswald", sans-serif;
+  /* font: normal 400 3.4rem/0.9 "Oswald", sans-serif; */
+  font: normal 400 3.4rem/0.9 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-default);
 }
@@ -1767,7 +1794,8 @@ form input, form textarea {
        border-radius: 2.5rem;
   border: 1px solid var(--strokes);
   color: var(--t-default);
-  font: normal 400 1.6rem/1.4 "Inter", sans-serif;
+  /* font: normal 400 1.6rem/1.4 "Inter", sans-serif; */
+  font: normal 400 1.6rem/1.4 "Rajdhani", sans-serif;
   -webkit-transition: border 0.3s, background-color 0.3s ease-in-out;
   -moz-transition: border 0.3s, background-color 0.3s ease-in-out;
   transition: border 0.3s, background-color 0.3s ease-in-out;
@@ -1870,7 +1898,8 @@ form textarea:required:valid {
 }
 
 .reply-group__title {
-  font: normal 500 2.6rem/1.2 "Oswald", sans-serif;
+  /* font: normal 500 2.6rem/1.2 "Oswald", sans-serif; */
+  font: normal 500 2.6rem/1.2 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-default);
   margin-bottom: 0.4rem;
@@ -1878,7 +1907,8 @@ form textarea:required:valid {
 
 .reply-group__text {
   display: block;
-  font: normal 400 1.8rem/1.5 "Inter", sans-serif;
+  /* font: normal 400 1.8rem/1.5 "Inter", sans-serif; */
+  font: normal 400 1.8rem/1.5 "Rajdhani", sans-serif;
   color: var(--t-muted);
 }
 
@@ -2384,7 +2414,8 @@ form textarea:required:valid {
 }
 .media__countdown #countdown {
   position: relative;
-  font: normal 500 4.6rem/1.08 "Oswald", sans-serif;
+  /* font: normal 500 4.6rem/1.08 "Oswald", sans-serif; */
+  font: normal 500 4.6rem/1.08 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--accent);
 }
@@ -2452,7 +2483,8 @@ form textarea:required:valid {
 .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
   height: 5rem;
   bottom: 2rem;
-  font: normal 400 3.4rem/0.9 "Oswald", sans-serif;
+  /* font: normal 400 3.4rem/0.9 "Oswald", sans-serif; */
+  font: normal 400 3.4rem/0.9 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-per-bright-light);
 }
@@ -2944,7 +2976,8 @@ form textarea:required:valid {
   position: absolute;
   top: 0;
   left: 0;
-  font: normal 500 3rem/9rem "Oswald", sans-serif;
+  /* font: normal 500 3rem/9rem "Oswald", sans-serif; */
+  font: normal 500 3rem/9rem "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-default);
   height: 9rem;
@@ -2970,7 +3003,8 @@ form textarea:required:valid {
   position: absolute;
   top: 0;
   right: 0;
-  font: normal 500 3rem/9rem "Oswald", sans-serif;
+  /* font: normal 500 3rem/9rem "Oswald", sans-serif; */
+  font: normal 500 3rem/9rem "Rajdhani", sans-serif;
   text-transform: uppercase;
   font-variant-numeric: lining-nums;
   color: var(--t-default);
@@ -3012,7 +3046,8 @@ form textarea:required:valid {
 .accordion__title {
   position: relative;
   display: block;
-  font: normal 500 3rem/1.2 "Oswald", sans-serif;
+  /* font: normal 500 3rem/1.2 "Oswald", sans-serif; */
+  font: normal 500 3rem/1.2 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-default);
   padding: 2.7rem 0;
@@ -3151,11 +3186,13 @@ form textarea:required:valid {
 .contactdata__socials {
   display: block;
   position: relative;
-  font: normal 400 1.8rem/1.5 "Inter", sans-serif;
+  /* font: normal 400 1.8rem/1.5 "Inter", sans-serif; */
+  font: normal 400 1.8rem/1.5 "Rajdhani", sans-serif;
 }
 .contactdata__socials li {
   display: block;
-  font: normal 400 1.8rem/1.5 "Inter", sans-serif;
+  /* font: normal 400 1.8rem/1.5 "Inter", sans-serif; */
+  font: normal 400 1.8rem/1.5 "Rajdhani", sans-serif;
   color: var(--t-muted);
 }
 .contactdata__socials li i {
@@ -3165,7 +3202,8 @@ form textarea:required:valid {
   color: var(--t-muted);
 }
 .contactdata__socials li a {
-  font: normal 400 1.8rem/1.5 "Inter", sans-serif;
+  /* font: normal 400 1.8rem/1.5 "Inter", sans-serif; */
+  font: normal 400 1.8rem/1.5 "Rajdhani", sans-serif;
   color: var(--t-muted);
 }
 
@@ -3298,7 +3336,8 @@ form textarea:required:valid {
   padding: 2.2rem;
 }
 .pswp__caption__center h5 {
-  font: normal 500 3rem/1.2 "Oswald", sans-serif;
+  /* font: normal 500 3rem/1.2 "Oswald", sans-serif; */
+  font: normal 500 3rem/1.2 "Rajdhani", sans-serif;
   text-transform: uppercase;
   color: var(--t-per-bright-light);
   margin-bottom: 1.4rem;
@@ -3306,17 +3345,20 @@ form textarea:required:valid {
 .pswp__caption__center h5 small {
   display: block;
   margin-top: 0.3rem;
-  font: normal 400 1.6rem/1.2 "Oswald", sans-serif;
+  /* font: normal 400 1.6rem/1.2 "Oswald", sans-serif; */
+  font: normal 400 1.6rem/1.2 "Rajdhani", sans-serif;
   letter-spacing: 0.04rem;
   color: var(--t-per-default-light);
 }
 .pswp__caption__center p {
-  font: normal 400 1.8rem/1.5 "Inter", sans-serif;
+  /* font: normal 400 1.8rem/1.5 "Inter", sans-serif; */
+  font: normal 400 1.8rem/1.5 "Rajdhani", sans-serif;
   color: var(--t-per-muted-light);
 }
 
 .pswp__counter {
-  font: normal 400 1.8rem/44px "Oswald", sans-serif;
+  /* font: normal 400 1.8rem/44px "Oswald", sans-serif; */
+  font: normal 400 1.8rem/44px "Rajdhani", sans-serif;
   color: var(--t-per-default-light);
 }
 
