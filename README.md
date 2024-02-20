@@ -9,3 +9,6 @@ Important URLs:
 3. https://developers.facebook.com/docs/sharing/webmasters/images/
 4. https://kaydee.net/blog/open-graph-image/
 5. https://icon.kitchen/
+6. https://ahrefs.com/blog/open-graph-meta-tags/
+7. https://ogp.me/
+8. https://yoast.com/academy/
