@@ -222,11 +222,11 @@
 
 .split-slide-2 {
   /* background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363"); */
-  background-image: url("../img/backgrounds/man-looking-at-analytics-with-ai.png");
+  background-image: url("../img/backgrounds/slider-2.jpeg");
 }
 
 .split-slide-3 {
-  background-image: url("../img/backgrounds/1440x1620_05.webp");
+  background-image: url("../img/backgrounds/slider-3.jpeg");
 }
 
 .inner-image-1 {
@@ -234,7 +234,8 @@
 }
 
 .inner-image-2 {
-  background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363");
+  /* background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363"); */
+  background-image: url("../img/backgrounds/contact-page.jpeg");
 }
 
 .showreel-image-1 {
@@ -1377,7 +1378,7 @@ p.small a {
   position: relative;
   font-size: 2rem;
 }
-.btn-round svg {
+.icon {
   width: 1.5rem;
   height: 1.5rem;
 }
@@ -1389,7 +1390,7 @@ p.small a {
   .btn-round i {
     font-size: 2.2rem;
   }
-  .btn-round svg {
+  .icon {
     width: 1.7rem;
     height: 1.7rem;
   }
@@ -1402,7 +1403,7 @@ p.small a {
   .btn-round i {
     font-size: 2.5rem;
   }
-  .btn-round svg {
+  .icon {
     width: 2rem;
     height: 2rem;
   }
