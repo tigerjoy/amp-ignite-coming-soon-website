@@ -3214,6 +3214,10 @@ form textarea:required:valid {
   font-size: 1.8rem;
   color: var(--t-muted);
 }
+.contactdata_socials .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
 .contactdata__socials li a {
   /* font: normal 400 1.8rem/1.5 "Inter", sans-serif; */
   font: normal 400 1.8rem/1.5 "Rajdhani", sans-serif;
