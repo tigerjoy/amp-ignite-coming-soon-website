@@ -435,6 +435,10 @@ img {
   -moz-border-radius: var(--_radius-m);
        border-radius: var(--_radius-m);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 /* ------------------------------------------------*/
