@@ -217,7 +217,7 @@
 
 .split-slide-1 {
   /* background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363"); */
-  background-image: url("../img/backgrounds/1440x1620_03.webp");
+  background-image: url("../img/backgrounds/slider-4.png");
 }
 
 .split-slide-2 {
@@ -226,11 +226,13 @@
 }
 
 .split-slide-3 {
-  background-image: url("../img/backgrounds/slider-3.jpeg");
+  
+  background-image: url("../img/backgrounds/1440x1620_03.webp");
 }
 
 .inner-image-1 {
-  background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363");
+  /* background-image: url("https://dummyimage.com/1440x1620/4d4d4d/636363"); */
+  background-image: url("../img/backgrounds/about-us-page.png");
 }
 
 .inner-image-2 {
