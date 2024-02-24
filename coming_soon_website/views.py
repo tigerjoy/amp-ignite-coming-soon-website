@@ -15,8 +15,10 @@ def submit_contact_details(request):
         return JsonResponse({'message': 'Method not allowed'}, status=405)
 
 def set_timezone(request):
-    if request.method == 'POST' and 'timezone' in request.POST:
-        request.session['django_timezone'] = request.POST['timezone']
+    if request.method == 'POST' and 'timezone' in request.POST and 'formattedOffset' in request.POST:
+        request.session['django_timezone'] = request.POST['timezone'] + " " + request.POST['formattedOffset']
         return JsonResponse({'message': 'Timezone set successfully'})
-    else:
+    elif request.method == 'GET':
         return JsonResponse({'message': 'Method not allowed'}, status=405)
+    else:
+        return JsonResponse({'message': 'Invalid request'}, status=400)
