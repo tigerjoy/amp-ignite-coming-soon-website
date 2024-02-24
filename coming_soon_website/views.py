@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from .models import ContactFormData
+
 # Create your views here.
 def home(request):
     return render(request, "home.html")
@@ -17,10 +19,9 @@ def submit_contact_details(request):
         # Get timezone
         timezone = request.session.get('django_timezone', 'UTC')
 
-        response_data = {
+        form_data = {
             'ip_address': ip_address,
             'timezone': timezone,
-            'message': 'success',
             'website_type': request.POST['website_type'],
             'form_type': request.POST['form_type'],
             'name': request.POST['name'],
@@ -29,7 +30,16 @@ def submit_contact_details(request):
             'phone': request.POST['phone'],
             'customer_message': request.POST['customer_message']
         }
-        return JsonResponse(response_data)
+
+        # Create a ContactFormData object from the dictionary
+        contact_data = ContactFormData(**form_data)
+
+        # Save the object to the database
+        contact_data.save()
+
+        form_data['message'] = 'success'
+
+        return JsonResponse(form_data)
     elif request.method == 'GET':
         return JsonResponse({'message': 'Method not allowed'}, status=405)
     else:
