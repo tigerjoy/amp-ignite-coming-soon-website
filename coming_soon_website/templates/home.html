@@ -806,25 +806,25 @@
                       <form class="form contact-form" id="contact-form">
                         {% csrf_token %}
                         <!-- Hidden Required Fields -->
-                        <input type="hidden" name="website-type" value="amp-ignite-coming-soon-website">
-                        <input type="hidden" name="form-type" value="contact-form">
+                        <input type="hidden" name="website_type" value="amp-ignite-coming-soon-website">
+                        <input type="hidden" name="form_type" value="contact-form">
                         <!-- END Hidden Required Fields-->
                         <div class="container-fluid p-0">
                           <div class="row gx-2">
                             <div class="col-12 col-md-6">
-                              <input type="text" name="Name" placeholder="Your Name*" required>
+                              <input type="text" name="name" placeholder="Your Name*" required>
                             </div>
                             <div class="col-12 col-md-6">
-                              <input type="text" name="Company" placeholder="Company Name">
+                              <input type="text" name="company" placeholder="Company Name">
                             </div>
                             <div class="col-12 col-md-6">
-                              <input type="email" name="E-mail" placeholder="Email Adress*" required>
+                              <input type="email" name="email" placeholder="Email Adress*" required>
                             </div>
                             <div class="col-12 col-md-6">
-                              <input type="tel" name="Phone" placeholder="Phone Number*" required>
+                              <input type="tel" name="phone" placeholder="Phone Number*" required>
                             </div>
                             <div class="col-12">
-                              <textarea name="Message" placeholder="A Few Words*" required></textarea>
+                              <textarea name="customer_message" placeholder="A Few Words*" required></textarea>
                             </div>
                             <div class="col-12">
                               <button id="submit-button" class="btn btn-default btn-filled hover-anim hover-accent" type="submit">
