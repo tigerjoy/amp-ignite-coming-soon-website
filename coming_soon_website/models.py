@@ -35,7 +35,7 @@ class ApiToken(models.Model):
     service_name = models.TextField(null=False, blank=False)
     access_token = models.TextField(null=False, blank=False)
     refresh_token = models.TextField(null=False, blank=False)
-    expires_in = models.IntegerField(null=False, blank=False)
+    expires_in = models.DateTimeField(null=False, blank=False)
     json_response = models.JSONField(null=False, blank=False)
 
     def __str__(self):
