@@ -45,6 +45,10 @@
     <meta name="msapplication-navbutton-color" content="#4d26b3">
     <meta name="apple-mobile-web-app-status-bar-style" content="#4d26b3">
     <!-- Custom Browser Color End -->
+
+    <script>
+      window.setTimezoneEndpoint = "{% url 'set_timezone' %}";
+    </script>
   </head>
 
   <body>
@@ -997,7 +1001,7 @@
     <!-- Load Scripts Start -->
     <script src="{% static 'js/libs.min.js' %}"></script>
     <script src="{% static 'js/gallery-init.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.7/jstz.min.js"></script>
+    <script src="{% static 'js/jstz.min.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
     <!-- Load Scripts End -->
     
