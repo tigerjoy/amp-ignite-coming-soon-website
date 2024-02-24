@@ -47,7 +47,10 @@
     <!-- Custom Browser Color End -->
 
     <script>
-      window.setTimezoneEndpoint = "{% url 'set_timezone' %}";
+      window.endpoints = {
+        "setTimezone": "{% url 'set_timezone' %}",
+        "submitContactDetails": "{% url 'submit_contact_details' %}",
+      };
     </script>
   </head>
 
@@ -780,10 +783,22 @@
                     <!-- contact form container -->
                     <div class="form-container">
                       <!-- Contact Form Reply Group Start -->
-                      <div class="reply-group">
+                      <div id="success-reply" class="reply-group">
                         <i class="ph ph-smiley reply-group__icon"></i>
                         <p class="reply-group__title">Done!</p>
-                        <span class="reply-group__text">Thanks for your message. I'll get back as soon as possible.</span>
+                        <span class="reply-group__text">Thanks for your message. We'll get back as soon as possible.</span>
+                      </div>
+                      <div id="failure-reply" class="reply-group">
+                        <i class="ph ph-smiley-sad reply-group__icon"></i>
+                        <p class="reply-group__title">Uh oh!</p>
+                        <span class="reply-group__text">Oops, looks like that didn't go as planned. Please send us an email at</span>
+                        <p class="small">
+                          <a class="contact-link" href="mailto:sharif.mubarak@amp-ignite.ai?subject=%5BINQUIRY%5D%20Regarding%20Amp-Ignite%20Services&body=Hey%2C%20Amp-Ignite%20Team!%0A%0ALooking%20to%20inquire%20about%20your%20services.%20Here%20are%20my%20details.%0A%0AName%3A%20%5BYour-Name%5D%0APhone%20Number%3A%20%5BContact-Number%5D%0ACompany%20Name%3A%20%5BCompany-Name%5D">sharif.mubarak@amp-ignite.ai</a>
+                        </p>
+                        OR
+                        <p class="small">
+                          <a class="contact-link" href="mailto:khalil.kamal@amp-ignite.ai?subject=%5BINQUIRY%5D%20Regarding%20Amp-Ignite%20Services&body=Hey%2C%20Amp-Ignite%20Team!%0A%0ALooking%20to%20inquire%20about%20your%20services.%20Here%20are%20my%20details.%0A%0AName%3A%20%5BYour-Name%5D%0APhone%20Number%3A%20%5BContact-Number%5D%0ACompany%20Name%3A%20%5BCompany-Name%5D">khalil.kamal@amp-ignite.ai</a>
+                        </p>
                       </div>
                       <!-- Contact Form Reply Group End -->
         
@@ -791,9 +806,8 @@
                       <form class="form contact-form" id="contact-form">
                         {% csrf_token %}
                         <!-- Hidden Required Fields -->
-                        <input type="hidden" name="project_name" value="Helio - Coming Soon and Landing Page Template">
-                        <input type="hidden" name="admin_email" value="support@mixdesign.club">
-                        <input type="hidden" name="form_subject" value="Contact Form Message">
+                        <input type="hidden" name="website-type" value="amp-ignite-coming-soon-website">
+                        <input type="hidden" name="form-type" value="contact-form">
                         <!-- END Hidden Required Fields-->
                         <div class="container-fluid p-0">
                           <div class="row gx-2">
@@ -813,7 +827,7 @@
                               <textarea name="Message" placeholder="A Few Words*" required></textarea>
                             </div>
                             <div class="col-12">
-                              <button class="btn btn-default btn-filled hover-anim hover-accent" type="submit">
+                              <button id="submit-button" class="btn btn-default btn-filled hover-anim hover-accent" type="submit">
                                 <em></em>
                                 <i class="ph ph-paper-plane"></i>
                                 <span class="btn-caption">Submit</span>
@@ -848,6 +862,9 @@
                             </div>
                             <div id="tick" class="tick d-none" style="opacity: 0; color: var(--secondary);font-size: 8rem;">
                               <i class="ph ph-check-circle"></i> <!-- Adjust the icon as needed -->
+                            </div>
+                            <div id="cross" class="cross d-none" style="opacity: 0; color: #E3242B;font-size: 8rem;">
+                              <i class="ph ph-x"></i> <!-- Adjust the icon as needed -->
                             </div>
                           </div>
                         </div>

@@ -83,7 +83,7 @@ $(window).on("load", function () {
 
   $.ajax({
     type: 'POST',
-    url: window.setTimezoneEndpoint,
+    url: window.endpoints && window.endpoints["setTimezone"] ? window.endpoints["setTimezone"] : "/404",
     headers: {
       'X-CSRFToken': csrftoken
     },
@@ -279,22 +279,192 @@ $(function () {
   // --------------------------------------------- //
   // Contact Form Start
   // --------------------------------------------- //
+  function debounce(func, delay = 300) {
+    let timeoutId;
+    return function () {
+      const context = this;
+      const args = arguments;
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(function () {
+        func.apply(context, args);
+      }, delay);
+    };
+  }
+
   $("#contact-form").submit(function () { //Change
-    var th = $(this);
-    $.ajax({
-      type: "POST",
-      url: "mail.php", //Change
-      data: th.serialize()
-    }).done(function () {
-      $('.contact').find('.form').addClass('is-hidden');
-      $('.contact').find('.reply-group').addClass('is-visible');
-      setTimeout(function () {
-        // Done Functions
-        $('.contact').find('.reply-group').removeClass('is-visible');
-        $('.contact').find('.form').delay(300).removeClass('is-hidden');
-        th.trigger("reset");
-      }, 5000);
-    });
+    debounce(function () {
+      console.log("Started submitting form...");
+      var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
+      var th = $("#contact-form");
+      console.log("Form data serialized: ", th.serialize());
+      // Add the loader overlay on the form to prevent any further
+      // clicks until the request completes
+      th.find("#loading-overlay").removeClass("d-none").addClass("visible");
+      // Change the text of the Submit button
+      th.find("#submit-button .btn-caption").text("Sending...");
+      $.ajax({
+        type: "POST",
+        url: window.endpoints && window.endpoints["submitContactDetails"] ? window.endpoints["submitContactDetails"] : "/404",
+        headers: {
+          'X-CSRFToken': csrftoken
+        },
+        data: th.serialize(),
+        success: function () {
+          console.log("Successfully submitted form!")
+          // On successful form submission, 
+          var th = $("#contact-form");
+
+          th.queue(function (next) {
+
+            // Step 1
+            $(this).delay(1000).queue(function (next) {
+              // (a): Change button text to Sent and icon to Check
+              $(this).find("#submit-button .btn-caption").text("Sent!");
+              $(this).find("#submit-button i").removeClass("ph-paper-plane").addClass("ph-check-fat");
+
+              // (b) Hide the spinner
+              $(this).find("#spinner").addClass("hidden");
+
+              next();
+            });
+
+            // Step 2: Wait for the hide animation to complete, then
+            $(this).delay(600).queue(function (next) {
+              // (a) Set display to none
+              $(this).find("#spinner").addClass("d-none");
+              // (b) Show the tick sign
+              $(this).find("#tick").removeClass("d-none").addClass("visible");
+
+              next();
+            });
+
+            // Step 3:
+            $(this).delay(1000).queue(function (next) {
+              // (a): Show the success message
+              // Hide the form
+              $(this).addClass("is-hidden");
+
+              // Show the success reply
+              $("#success-reply").addClass("is-visible z-3");
+
+              next();
+            });
+
+            $(this).delay(1000).queue(function (next) {
+              // (b) Reset
+              // Reset all the loader, spinner, tick to their original classes
+
+              // Reset loading-overlay
+              $(this).find("#loading-overlay").removeClass("visible").addClass("d-none");
+
+              // Reset submit button
+              $(this).find("#submit-button .btn-caption").text("Submit");
+              $(this).find("#submit-button i").removeClass("ph-check-fat").addClass("ph-paper-plane");
+
+              // Reset spinner
+              $(this).find("#spinner").removeClass("hidden d-none");
+
+              // Reset tick
+              $(this).find("#tick").removeClass("visible").addClass("d-none");
+
+              next();
+            });
+
+            // Step 4:
+            $(this).delay(5000).queue(function (next) {
+              // Done Functions
+              var th = $("#contact-form");
+              $("#success-reply").removeClass('is-visible z-3');
+              th.delay(300).removeClass('is-hidden');
+              th.trigger("reset");
+              next();
+            });
+
+
+            next();
+          });
+        },
+        error: function () {
+          // Error handling
+          console.log('Error submitting form');
+
+          var th = $("#contact-form");
+
+          th.queue(function (next) {
+            // Step 1
+            $(this).delay(1000).queue(function (next) {
+              // (a): Change button text to Sent and icon to Check
+              $(this).find("#submit-button .btn-caption").text("Error!");
+              $(this).find("#submit-button i").removeClass("ph-paper-plane").addClass("ph-x");
+
+              // (b) Hide the spinner
+              $(this).find("#spinner").addClass("hidden");
+
+              next();
+            });
+
+            // Step 2: Wait for the hide animation to complete, then
+            $(this).delay(600).queue(function (next) {
+              // (a) Set display to none
+              $(this).find("#spinner").addClass("d-none");
+              // (b) Show the tick sign
+              $(this).find("#cross").removeClass("d-none").addClass("visible");
+
+              next();
+            });
+
+            // Step 3:
+            $(this).delay(1000).queue(function (next) {
+              // (a): Show the success message
+              // Hide the form
+              $(this).addClass("is-hidden");
+
+              // Show the success reply
+              $("#failure-reply").addClass("is-visible z-3");
+
+              next();
+            });
+
+            // Step 4:
+            $(this).delay(1000).queue(function(next){
+              // (b) Reset
+              // Reset all the loader, spinner, tick to their original classes
+
+              // Reset loading-overlay
+              $(this).find("#loading-overlay").removeClass("visible").addClass("d-none");
+
+              // Reset submit button
+              $(this).find("#submit-button .btn-caption").text("Submit");
+              $(this).find("#submit-button i").removeClass("ph-check-fat").addClass("ph-paper-plane");
+
+              // Reset spinner
+              $(this).find("#spinner").removeClass("hidden d-none");
+
+              // Reset tick
+              $(this).find("#cross").removeClass("visible").addClass("d-none");
+
+              next();
+            });
+
+            next();
+          });
+        }
+      });
+    })();
+    // $.ajax({
+    //   type: "POST",
+    //   url: "mail.php", //Change
+    //   data: th.serialize()
+    // }).done(function () {
+    //   $('.contact').find('.form').addClass('is-hidden');
+    //   $('.contact').find('.reply-group').addClass('is-visible');
+    //   setTimeout(function () {
+    //     // Done Functions
+    //     $('.contact').find('.reply-group').removeClass('is-visible');
+    //     $('.contact').find('.form').delay(300).removeClass('is-hidden');
+    //     th.trigger("reset");
+    //   }, 5000);
+    // });
     return false;
   });
   // --------------------------------------------- //
