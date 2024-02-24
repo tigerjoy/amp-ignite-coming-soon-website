@@ -22,5 +22,7 @@ from coming_soon_website import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name="home"),
-    path('submit-contact-details/', views.submit_contact_details, name="submit_contact_details")
+    path('submit-contact-details/', views.submit_contact_details, name="submit_contact_details"),
+    path('set-timezone/', views.set_timezone, name="set_timezone"),
+
 ]

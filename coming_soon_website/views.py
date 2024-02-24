@@ -13,3 +13,10 @@ def submit_contact_details(request):
         return JsonResponse({'ip_address': ip_address, 'message': 'success'})
     else:
         return JsonResponse({'message': 'Method not allowed'}, status=405)
+
+def set_timezone(request):
+    if request.method == 'POST' and 'timezone' in request.POST:
+        request.session['django_timezone'] = request.POST['timezone']
+        return JsonResponse({'message': 'Timezone set successfully'})
+    else:
+        return JsonResponse({'message': 'Method not allowed'}, status=405)
