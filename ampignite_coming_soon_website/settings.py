@@ -37,9 +37,18 @@ CLIENT_SECRET = os.getenv("GO_HIGH_LEVEL_CLIENT_SECRET")
 TOKEN_REFRESH_THRESHOLD_MINUTES = int(os.getenv("TOKEN_REFRESH_THRESHOLD_MINUTES"))
 EMAIL_TO=str(os.getenv("EMAIL_TO")).split(",")
 GO_HIGH_LEVEL_SERVICE_NAME=os.getenv("GO_HIGH_LEVEL_SERVICE_NAME")
+CRON_JOBS_LOG_FILE_PATH=os.getenv("CRON_JOBS_LOG_FILE_PATH")
+
+# django-crontab definitions
+CRONTAB_LOCK_JOBS = True
+
+CRONJOBS = [
+    ("0 * * * *", 'django.core.management.call_command', ['process_tasks'])
+]
+
+CRONTAB_COMMAND_SUFFIX = f'>> "{CRON_JOBS_LOG_FILE_PATH}" 2>&1'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,7 +58,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'coming_soon_website',
-    'background_task'
+    'background_task',
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
