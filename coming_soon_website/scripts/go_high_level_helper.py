@@ -1,24 +1,14 @@
-import os
 import requests
-import copy
 import json
 import traceback
+import requests
 
-from dotenv import load_dotenv
 from django.utils import timezone
+from django.conf import settings
 from datetime import timedelta
 
 from coming_soon_website.models import ApiToken, ApiTokenRefreshErrorLog, ContactFormData, ApiCallErrorLog
 
-load_dotenv()
-
-# Load all constants
-CLIENT_ID = os.getenv("GO_HIGH_LEVEL_CLIENT_ID")
-CLIENT_SECRET = os.getenv("GO_HIGH_LEVEL_CLIENT_SECRET")
-TOKEN_REFRESH_THRESHOLD_MINUTES = int(os.getenv("TOKEN_REFRESH_THRESHOLD_MINUTES"))
-EMAIL_TO=str(os.getenv("EMAIL_TO")).split(",")
-
-import requests
 
 # Define all API endpoints with their respective payload
 # and headers structure
@@ -27,8 +17,8 @@ API_ENDPOINTS = {
         "url": "https://services.leadconnectorhq.com/oauth/token",
         "method": "POST",
         "payload": {
-            "client_id": CLIENT_ID,
-            "client_secret": CLIENT_SECRET,
+            "client_id": settings.CLIENT_ID,
+            "client_secret": settings.CLIENT_SECRET,
             "grant_type": "refresh_token",
             "refresh_token": ""
         },
@@ -174,7 +164,7 @@ def is_access_token_valid(service_name):
     if not service_token_record:
         return False
     else:
-        threshold_time = timezone.now() + timedelta(minutes=TOKEN_REFRESH_THRESHOLD_MINUTES)
+        threshold_time = timezone.now() + timedelta(minutes=settings.TOKEN_REFRESH_THRESHOLD_MINUTES)
 
         # If the token expires in the future
         if threshold_time < service_token_record.expires_in:
@@ -442,8 +432,8 @@ def add_inbound_conversation_message(service_name, contact_form_data_id: int):
         "html": f"<p>{contact_form_data.customer_message}</p>",
         "subject": "[INQUIRY] From Contact Form",
         "emailFrom": contact_form_data.email,
-        "emailTo": EMAIL_TO[0] if len(EMAIL_TO) >= 1 else [],
-        "emailCc": EMAIL_TO[1:] if len(EMAIL_TO) >= 2 else [],
+        "emailTo": settings.EMAIL_TO[0] if len(settings.EMAIL_TO) >= 1 else [],
+        "emailCc": settings.EMAIL_TO[1:] if len(settings.EMAIL_TO) >= 2 else [],
         "direction": "inbound",
         "date": timezone.now().isoformat() 
     }
