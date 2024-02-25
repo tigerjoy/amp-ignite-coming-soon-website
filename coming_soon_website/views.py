@@ -1,7 +1,10 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.conf import settings
 
 from .models import ContactFormData
+
+from .tasks.go_high_level_tasks import save_contact_flow
 
 # Create your views here.
 def home(request):
@@ -38,6 +41,8 @@ def submit_contact_details(request):
         contact_data.save()
 
         form_data['message'] = 'success'
+
+        save_contact_flow(contact_data.id, settings.GO_HIGH_LEVEL_SERVICE_NAME, verbose_name=f"save_contact_flow_for_id_{contact_data.id}")
 
         return JsonResponse(form_data)
     elif request.method == 'GET':
