@@ -7,13 +7,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         SERVICE_NAME = "GoHighLevel.ContactFormSubmission"
-        contact_form_data = ContactFormData.objects.filter(id=2).first()
         is_access_token_valid = ghlh.is_access_token_valid(SERVICE_NAME)
-        
+
         print("Is access token valid?", is_access_token_valid)
         
         if not is_access_token_valid or True:
             ghlh.refresh_access_token("GoHighLevel.ContactFormSubmission")
         
-        ghlh.create_contact("GoHighLevel.ContactFormSubmission", contact_form_data)
+        # ghlh.create_contact("GoHighLevel.ContactFormSubmission", contact_form_data_id=3)
+        # ghlh.create_conversation("GoHighLevel.ContactFormSubmission", contact_form_data_id=3)
+        ghlh.add_inbound_conversation_message("GoHighLevel.ContactFormSubmission", contact_form_data_id=3)
 
