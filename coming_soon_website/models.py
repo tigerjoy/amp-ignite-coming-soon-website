@@ -17,6 +17,7 @@ class ContactFormData(models.Model):
     contact_id = models.TextField(blank=True, null=True)
     conversation_id = models.TextField(blank=True, null=True)
     message_id = models.TextField(blank=True, null=True)
+    email_message_id = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return (
@@ -30,8 +31,13 @@ class ContactFormData(models.Model):
             f"ip_address={self.ip_address}, "
             f"timezone={self.timezone}, "
             f"website_type={self.website_type}, "
-            f"form_type={self.form_type})"
-            f"saved_in_gohighlevel={self.saved_in_gohighlevel})"
+            f"form_type={self.form_type}, "
+            f"saved_in_gohighlevel={self.saved_in_gohighlevel}, "
+            f"contact_id={self.contact_id}, "
+            f"conversation_id={self.conversation_id}, "
+            f"message_id={self.message_id}, "
+            f"email_message_id={self.email_message_id}"
+            ")"
         )
 
 class ApiToken(models.Model):
@@ -58,24 +64,42 @@ class ApiToken(models.Model):
             f"refresh_token={self.refresh_token}, "
             f"location_id={self.location_id}, "
             f"expires_in={self.expires_in}, "
-            f"json_response={self.json_response}"
-            f"created_at={self.created_at}"
+            f"json_response={self.json_response}, "
+            f"created_at={self.created_at}, "
             f"modified_at={self.modified_at}"
-            f")"
+            ")"
         )
     
-class ApiTokenRefreshLog(models.Model):
+class ApiTokenRefreshErrorLog(models.Model):
     id = models.AutoField(primary_key=True)
     api_token = models.ForeignKey('ApiToken', on_delete=models.PROTECT)
-    is_refresh_successful = models.BooleanField(default=False)
     error_log = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
 
     def __str__(self):
         return (
-            f"ApiTokenRefreshLog(id={self.id}, "
-            f"api_token_id={self.api_token_id}, "
+            f"ApiTokenRefreshErrorLog(id={self.id}, "
+            f"api_token={self.api_token}, "
             f"is_refresh_successful={self.is_refresh_successful}, "
             f"error_log={self.error_log}, "
-            f"created_at={self.created_at})"
+            f"created_at={self.created_at}"
+            ")"
+        )
+
+class ApiCallErrorLog(models.Model):
+    id = models.AutoField(primary_key=True)
+    api_token = models.ForeignKey('ApiToken', on_delete=models.PROTECT)
+    contact_form_data = models.ForeignKey('ContactFormData', on_delete=models.PROTECT)
+    error_log = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+
+    def __str__(self):
+        return (
+            f"ApiCallErrorLog(id={self.id}, "
+            f"api_token={self.api_token}, "
+            f"contact_form_data={self.contact_form_data}, "
+            f"is_refresh_successful={self.is_refresh_successful}, "
+            f"error_log={self.error_log}, "
+            f"created_at={self.created_at}"
+            ")"
         )
