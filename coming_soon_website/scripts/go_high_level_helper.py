@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from django.utils import timezone
 from datetime import timedelta
 
-from coming_soon_website.models import ApiToken, ApiTokenRefreshLog, ContactFormData, ApiCallErrorLog
+from coming_soon_website.models import ApiToken, ApiTokenRefreshErrorLog, ContactFormData, ApiCallErrorLog
 
 load_dotenv()
 
@@ -215,7 +215,7 @@ def refresh_access_token(service_name):
             print("Request failed, could not refresh access token")
             print(response)
             print(response.text)
-            refresh_error_log = ApiTokenRefreshLog(
+            refresh_error_log = ApiTokenRefreshErrorLog(
                 api_token=service_token_record
             )
             error_log = json.dumps({
@@ -225,7 +225,7 @@ def refresh_access_token(service_name):
             refresh_error_log.error_log = error_log
             refresh_error_log.save()
     except Exception as e:
-        refresh_error_log = ApiTokenRefreshLog(
+        refresh_error_log = ApiTokenRefreshErrorLog(
             api_token=service_token_record
         )
         error_log = json.dumps({
@@ -324,7 +324,7 @@ def create_contact(service_name, contact_form_data_id: int):
         raise
     except Exception as e:
         print(e)
-        refresh_error_log = ApiTokenRefreshLog(
+        refresh_error_log = ApiTokenRefreshErrorLog(
             api_token=service_token_record
         )
         error_log = json.dumps({
@@ -405,7 +405,7 @@ def create_conversation(service_name, contact_form_data_id: int):
         raise
     except Exception as e:
         print(e)
-        refresh_error_log = ApiTokenRefreshLog(
+        refresh_error_log = ApiTokenRefreshErrorLog(
             api_token=service_token_record
         )
         error_log = json.dumps({
@@ -498,7 +498,7 @@ def add_inbound_conversation_message(service_name, contact_form_data_id: int):
         raise
     except Exception as e:
         print(e)
-        refresh_error_log = ApiTokenRefreshLog(
+        refresh_error_log = ApiTokenRefreshErrorLog(
             api_token=service_token_record
         )
         error_log = json.dumps({
