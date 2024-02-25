@@ -20,6 +20,8 @@ EMAIL_TO=str(os.getenv("EMAIL_TO")).split(",")
 
 import requests
 
+# Define all API endpoints with their respective payload
+# and headers structure
 API_ENDPOINTS = {
     "refresh_access_token": {
         "url": "https://services.leadconnectorhq.com/oauth/token",
@@ -101,6 +103,34 @@ API_ENDPOINTS = {
     }
 }
 
+# Add all custom exception classes
+class CreateContactException(Exception):
+    def __init__(self, status_code, response_text):
+        self.status_code = status_code
+        self.response_text = response_text
+        super().__init__(f"CreateContactException(status_code={status_code}, response_text={response_text})")
+
+    def __str__(self):
+        return f"CreateContactException(status_code={self.status_code}, response_text={self.response_text})"
+    
+class CreateConversationException(Exception):
+    def __init__(self, status_code, response_text):
+        self.status_code = status_code
+        self.response_text = response_text
+        super().__init__(f"CreateConversationException(status_code={status_code}, response_text={response_text})")
+
+    def __str__(self):
+        return f"CreateConversationException(status_code={self.status_code}, response_text={self.response_text})"
+
+class AddInboundConversationMessageException(Exception):
+    def __init__(self, status_code, response_text):
+        self.status_code = status_code
+        self.response_text = response_text
+        super().__init__(f"AddInboundConversationMessageException(status_code={status_code}, response_text={response_text})")
+
+    def __str__(self):
+        return f"AddInboundConversationMessageException(status_code={self.status_code}, response_text={self.response_text})"
+
 def call_api(endpoint_key, custom_payload=None, custom_headers=None):
     endpoint_config = API_ENDPOINTS.get(endpoint_key)
     if not endpoint_config:
@@ -176,13 +206,14 @@ def refresh_access_token(service_name):
             service_token_record.save()
             print("Successfully refreshed access token and updated in DB")
             print(service_token_record)
-            refresh_log.is_refresh_successful = True
-            refresh_log.save()
         else:
             print("Request failed, could not refresh access token")
             print(response)
             print(response.text)
-            error_log = response.text
+            error_log = json.dumps({
+                "status_code": response.status_code,
+                "response_text": response.text
+            })
             refresh_log.is_refresh_successful = False
             refresh_log.error_log = error_log
             refresh_log.save()
@@ -254,11 +285,10 @@ def create_contact(service_name, contact_form_data_id: int):
             contact_form_data.save()
             return True
         else:
-            print(response.text)
-            return False
+            raise CreateContactException(status_code=response.status_code, response_text=response.text)
     except Exception as e:
         print(e)
-        return False
+        raise
 
 def create_conversation(service_name, contact_form_data_id: int):
     ENDPOINT_KEY = "write_conversation"
@@ -303,11 +333,10 @@ def create_conversation(service_name, contact_form_data_id: int):
             contact_form_data.save()
             return True
         else:
-            print(response.text)
-            return False
+            raise CreateConversationException(status_code=response.status_code, response_text=response.text)
     except Exception as e:
         print(e)
-        return False
+        raise
 
 def add_inbound_conversation_message(service_name, contact_form_data_id: int):
     ENDPOINT_KEY = "add_inbound_conversation_message"
@@ -364,8 +393,7 @@ def add_inbound_conversation_message(service_name, contact_form_data_id: int):
             contact_form_data.save()
             return True
         else:
-            print(response.text)
-            return False
+            raise AddInboundConversationMessageException(status_code=response.status_code, response_text=response.text)
     except Exception as e:
         print(e)
-        return False
+        raise
