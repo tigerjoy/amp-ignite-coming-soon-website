@@ -7,6 +7,7 @@ certifi==2024.2.2
 charset-normalizer==3.3.2
 Django==4.2.10
 django-compat==1.0.15
+django-crontab==0.7.1
 django4-background-tasks==1.2.9
 frozenlist==1.4.1
 idna==3.6
