@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.conf import settings
 from datetime import timedelta
 
-from coming_soon_website.models import ApiToken, ApiTokenRefreshErrorLog, ContactFormData, ApiCallErrorLog
+from coming_soon_website.models import ApiToken, ContactFormData, ApiCallErrorLog
 
 
 # Define all API endpoints with their respective payload
@@ -205,7 +205,7 @@ def refresh_access_token(service_name):
             print("Request failed, could not refresh access token")
             print(response)
             print(response.text)
-            refresh_error_log = ApiTokenRefreshErrorLog(
+            refresh_error_log = ApiCallErrorLog(
                 api_token=service_token_record
             )
             error_log = json.dumps({
@@ -213,9 +213,10 @@ def refresh_access_token(service_name):
                 "response_text": response.text
             })
             refresh_error_log.error_log = error_log
+            refresh_error_log.error_type = "AuthTokenRefreshException"
             refresh_error_log.save()
     except Exception as e:
-        refresh_error_log = ApiTokenRefreshErrorLog(
+        refresh_error_log = ApiCallErrorLog(
             api_token=service_token_record
         )
         error_log = json.dumps({
@@ -223,6 +224,7 @@ def refresh_access_token(service_name):
            "traceback":  traceback.format_exc()
         })
         refresh_error_log.error_log = error_log
+        refresh_error_log.error_type = "GenericException"
         refresh_error_log.save()
 
 def create_contact(service_name, contact_form_data_id: int):
@@ -299,6 +301,7 @@ def create_contact(service_name, contact_form_data_id: int):
             "status_code": a.status_code,
             "response_text": a.response_text
         })
+        api_call_error_log.error_type = type(a).__name__
         api_call_error_log.save()
         raise
     except CreateContactException as c:
@@ -310,19 +313,22 @@ def create_contact(service_name, contact_form_data_id: int):
             "status_code": c.status_code,
             "response_text": c.response_text
         })
+        api_call_error_log.error_type = type(c).__name__
         api_call_error_log.save()
         raise
     except Exception as e:
         print(e)
-        refresh_error_log = ApiTokenRefreshErrorLog(
-            api_token=service_token_record
+        api_call_error_log = ApiCallErrorLog(
+            api_token=service_token_record,
+            contact_form_data=contact_form_data
         )
         error_log = json.dumps({
            "error": str(e),
            "traceback":  traceback.format_exc()
         })
-        refresh_error_log.error_log = error_log
-        refresh_error_log.save()
+        api_call_error_log.error_log = error_log
+        api_call_error_log.error_type = "GenericException"
+        api_call_error_log.save()
         raise
 
 def create_conversation(service_name, contact_form_data_id: int):
@@ -380,6 +386,7 @@ def create_conversation(service_name, contact_form_data_id: int):
             "status_code": a.status_code,
             "response_text": a.response_text
         })
+        api_call_error_log.error_type = type(a).__name__
         api_call_error_log.save()
         raise
     except CreateContactException as c:
@@ -391,19 +398,21 @@ def create_conversation(service_name, contact_form_data_id: int):
             "status_code": c.status_code,
             "response_text": c.response_text
         })
+        api_call_error_log.error_type = type(c).__name__
         api_call_error_log.save()
         raise
     except Exception as e:
         print(e)
-        refresh_error_log = ApiTokenRefreshErrorLog(
+        api_call_error_log = ApiCallErrorLog(
             api_token=service_token_record
         )
         error_log = json.dumps({
            "error": str(e),
            "traceback":  traceback.format_exc()
         })
-        refresh_error_log.error_log = error_log
-        refresh_error_log.save()
+        api_call_error_log.error_log = error_log
+        api_call_error_log.error_type = "GenericException"
+        api_call_error_log.save()
         raise
 
 def add_inbound_conversation_message(service_name, contact_form_data_id: int):
@@ -473,6 +482,7 @@ def add_inbound_conversation_message(service_name, contact_form_data_id: int):
             "status_code": a.status_code,
             "response_text": a.response_text
         })
+        api_call_error_log.error_type = type(a).__name__
         api_call_error_log.save()
         raise
     except CreateContactException as c:
@@ -484,17 +494,19 @@ def add_inbound_conversation_message(service_name, contact_form_data_id: int):
             "status_code": c.status_code,
             "response_text": c.response_text
         })
+        api_call_error_log.error_type = type(c).__name__
         api_call_error_log.save()
         raise
     except Exception as e:
         print(e)
-        refresh_error_log = ApiTokenRefreshErrorLog(
+        api_call_error_log = ApiCallErrorLog(
             api_token=service_token_record
         )
         error_log = json.dumps({
            "error": str(e),
            "traceback":  traceback.format_exc()
         })
-        refresh_error_log.error_log = error_log
-        refresh_error_log.save()
+        api_call_error_log.error_log = error_log
+        api_call_error_log.error_type = "GenericException"
+        api_call_error_log.save()
         raise
