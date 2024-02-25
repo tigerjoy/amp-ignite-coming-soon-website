@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from django.utils import timezone
 from datetime import timedelta
 
-from coming_soon_website.models import ApiToken, ApiTokenRefreshLog, ContactFormData
+from coming_soon_website.models import ApiToken, ApiTokenRefreshLog, ContactFormData, ApiCallErrorLog
 
 load_dotenv()
 
@@ -131,6 +131,15 @@ class AddInboundConversationMessageException(Exception):
     def __str__(self):
         return f"AddInboundConversationMessageException(status_code={self.status_code}, response_text={self.response_text})"
 
+class AccessTokenExpiredException(Exception):
+    def __init__(self, status_code, response_text):
+        self.status_code = status_code
+        self.response_text = response_text
+        super().__init__(f"AccessTokenExpiredException(status_code={status_code}, response_text={response_text})")
+
+    def __str__(self):
+        return f"AccessTokenExpiredException(status_code={self.status_code}, response_text={self.response_text})"
+
 def call_api(endpoint_key, custom_payload=None, custom_headers=None):
     endpoint_config = API_ENDPOINTS.get(endpoint_key)
     if not endpoint_config:
@@ -190,10 +199,6 @@ def refresh_access_token(service_name):
         "refresh_token": service_token_record.refresh_token
     }
 
-    refresh_log = ApiTokenRefreshLog(
-        api_token=service_token_record
-    )
-
     try:
         response = call_api(ENDPOINT_KEY, payload)
 
@@ -210,18 +215,25 @@ def refresh_access_token(service_name):
             print("Request failed, could not refresh access token")
             print(response)
             print(response.text)
+            refresh_error_log = ApiTokenRefreshLog(
+                api_token=service_token_record
+            )
             error_log = json.dumps({
                 "status_code": response.status_code,
                 "response_text": response.text
             })
-            refresh_log.is_refresh_successful = False
-            refresh_log.error_log = error_log
-            refresh_log.save()
+            refresh_error_log.error_log = error_log
+            refresh_error_log.save()
     except Exception as e:
-        error_log = "Error: " + str(e) + "\n" + "Traceback:" + traceback.format_exc()
-        refresh_log.is_refresh_successful = False
-        refresh_log.error_log = error_log
-        refresh_log.save()
+        refresh_error_log = ApiTokenRefreshLog(
+            api_token=service_token_record
+        )
+        error_log = json.dumps({
+           "error": str(e),
+           "traceback":  traceback.format_exc()
+        })
+        refresh_error_log.error_log = error_log
+        refresh_error_log.save()
 
 def create_contact(service_name, contact_form_data_id: int):
     ENDPOINT_KEY = "write_contact"
@@ -284,10 +296,43 @@ def create_contact(service_name, contact_form_data_id: int):
                 contact_form_data.contact_id = json_response["contact"]["id"]     
             contact_form_data.save()
             return True
+        elif response.status_code in [401]:
+            raise AccessTokenExpiredException(status_code=response.status_code, response_text=response.text)
         else:
             raise CreateContactException(status_code=response.status_code, response_text=response.text)
+    except AccessTokenExpiredException as a:
+        api_call_error_log = ApiCallErrorLog(
+            api_token=service_token_record,
+            contact_form_data=contact_form_data
+        )
+        api_call_error_log.error_log = json.dumps({
+            "status_code": a.status_code,
+            "response_text": a.response_text
+        })
+        api_call_error_log.save()
+        raise
+    except CreateContactException as c:
+        api_call_error_log = ApiCallErrorLog(
+            api_token=service_token_record,
+            contact_form_data=contact_form_data
+        )
+        api_call_error_log.error_log = json.dumps({
+            "status_code": c.status_code,
+            "response_text": c.response_text
+        })
+        api_call_error_log.save()
+        raise
     except Exception as e:
         print(e)
+        refresh_error_log = ApiTokenRefreshLog(
+            api_token=service_token_record
+        )
+        error_log = json.dumps({
+           "error": str(e),
+           "traceback":  traceback.format_exc()
+        })
+        refresh_error_log.error_log = error_log
+        refresh_error_log.save()
         raise
 
 def create_conversation(service_name, contact_form_data_id: int):
@@ -332,10 +377,43 @@ def create_conversation(service_name, contact_form_data_id: int):
                 contact_form_data.conversation_id = json_response["conversation"]["id"]     
             contact_form_data.save()
             return True
+        elif response.status_code in [401]:
+            raise AccessTokenExpiredException(status_code=response.status_code, response_text=response.text)
         else:
             raise CreateConversationException(status_code=response.status_code, response_text=response.text)
+    except AccessTokenExpiredException as a:
+        api_call_error_log = ApiCallErrorLog(
+            api_token=service_token_record,
+            contact_form_data=contact_form_data
+        )
+        api_call_error_log.error_log = json.dumps({
+            "status_code": a.status_code,
+            "response_text": a.response_text
+        })
+        api_call_error_log.save()
+        raise
+    except CreateContactException as c:
+        api_call_error_log = ApiCallErrorLog(
+            api_token=service_token_record,
+            contact_form_data=contact_form_data
+        )
+        api_call_error_log.error_log = json.dumps({
+            "status_code": c.status_code,
+            "response_text": c.response_text
+        })
+        api_call_error_log.save()
+        raise
     except Exception as e:
         print(e)
+        refresh_error_log = ApiTokenRefreshLog(
+            api_token=service_token_record
+        )
+        error_log = json.dumps({
+           "error": str(e),
+           "traceback":  traceback.format_exc()
+        })
+        refresh_error_log.error_log = error_log
+        refresh_error_log.save()
         raise
 
 def add_inbound_conversation_message(service_name, contact_form_data_id: int):
@@ -392,8 +470,41 @@ def add_inbound_conversation_message(service_name, contact_form_data_id: int):
 
             contact_form_data.save()
             return True
+        elif response.status_code in [401]:
+            raise AccessTokenExpiredException(status_code=response.status_code, response_text=response.text)
         else:
             raise AddInboundConversationMessageException(status_code=response.status_code, response_text=response.text)
+    except AccessTokenExpiredException as a:
+        api_call_error_log = ApiCallErrorLog(
+            api_token=service_token_record,
+            contact_form_data=contact_form_data
+        )
+        api_call_error_log.error_log = json.dumps({
+            "status_code": a.status_code,
+            "response_text": a.response_text
+        })
+        api_call_error_log.save()
+        raise
+    except CreateContactException as c:
+        api_call_error_log = ApiCallErrorLog(
+            api_token=service_token_record,
+            contact_form_data=contact_form_data
+        )
+        api_call_error_log.error_log = json.dumps({
+            "status_code": c.status_code,
+            "response_text": c.response_text
+        })
+        api_call_error_log.save()
+        raise
     except Exception as e:
         print(e)
+        refresh_error_log = ApiTokenRefreshLog(
+            api_token=service_token_record
+        )
+        error_log = json.dumps({
+           "error": str(e),
+           "traceback":  traceback.format_exc()
+        })
+        refresh_error_log.error_log = error_log
+        refresh_error_log.save()
         raise
