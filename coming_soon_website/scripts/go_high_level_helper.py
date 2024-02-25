@@ -14,6 +14,7 @@ load_dotenv()
 
 CLIENT_ID = os.getenv("GO_HIGH_LEVEL_CLIENT_ID")
 CLIENT_SECRET = os.getenv("GO_HIGH_LEVEL_CLIENT_SECRET")
+TOKEN_REFRESH_THRESHOLD_MINUTES = int(os.getenv("TOKEN_REFRESH_THRESHOLD_MINUTES"))
 
 import requests
 
@@ -58,6 +59,20 @@ API_ENDPOINTS = {
             "Content-Type": "application/json",
             "Accept": "application/json"
         }
+    },
+    "write_conversation": {
+        "url": "https://services.leadconnectorhq.com/conversations/",
+        "method": "POST",
+        "payload": {
+            "locationId": "",
+            "contactId": "",
+        },
+        "headers": {
+            "Authorization": "Bearer <token>",
+            "Version": "2021-04-15",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
     }
 }
 
@@ -95,8 +110,10 @@ def is_access_token_valid(service_name):
     if not service_token_record:
         return False
     else:
+        threshold_time = timezone.now() + timedelta(minutes=TOKEN_REFRESH_THRESHOLD_MINUTES)
+
         # If the token expires in the future
-        if timezone.now() < service_token_record.expires_in:
+        if threshold_time < service_token_record.expires_in:
             return True
         else:
             return False
@@ -150,12 +167,18 @@ def refresh_access_token(service_name):
         refresh_log.error_log = error_log
         refresh_log.save()
 
-def create_contact(service_name, contact_form_data: ContactFormData):
+def create_contact(service_name, contact_form_data_id: int):
     ENDPOINT_KEY = "write_contact"
+
+    if not contact_form_data_id:
+        print("contact_form_data_id is invalid, cannot create contact!")
+        return
+    
+    contact_form_data = ContactFormData.objects.filter(id=contact_form_data_id).first()
 
     if not contact_form_data:
         print("contact_form_data is invalid, cannot create contact!")
-        return
+        return False
     
     service_token_record = ApiToken.objects.filter(service_name=service_name).first()
 
@@ -201,9 +224,58 @@ def create_contact(service_name, contact_form_data: ContactFormData):
         if response.status_code in [201, 200]:
             json_response = response.json()
             print(json_response)
-            contact_form_data.saved_in_gohighlevel = True
+            if "contact" in json_response and "id" in json_response["contact"]:
+                contact_form_data.contact_id = json_response["contact"]["id"]     
             contact_form_data.save()
+            return True
         else:
             print(response.text)
+            return False
     except Exception as e:
         print(e)
+        return False
+
+def create_conversation(service_name, contact_form_data_id: int):
+    ENDPOINT_KEY = "write_conversation"
+
+    if not contact_form_data_id:
+        print("contact_form_data_id is invalid, cannot create contact!")
+        return
+    
+    contact_form_data = ContactFormData.objects.filter(id=contact_form_data_id).first()
+
+    if not contact_form_data:
+        print("contact_form_data is invalid, cannot create contact!")
+        return False
+    
+    service_token_record = ApiToken.objects.filter(service_name=service_name).first()
+
+    if not service_token_record:
+        print(f"Did not find a service_token_record associated with {service_name}")
+        return
+    
+    payload = {
+        "locationId": service_token_record.location_id,
+        "contactId": contact_form_data.contact_id
+    }
+
+    headers = {
+        "Authorization": f"Bearer {service_token_record.access_token}"
+    }
+
+    try:
+        response = call_api(ENDPOINT_KEY, payload, headers)
+
+        if response.status_code in [201, 200]:
+            json_response = response.json()
+            print(json_response)
+            if "contact" in json_response and "id" in json_response["contact"]:
+                contact_form_data.contact_id = json_response["contact"]["id"]     
+            contact_form_data.save()
+            return True
+        else:
+            print(response.text)
+            return False
+    except Exception as e:
+        print(e)
+        return False
