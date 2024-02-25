@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from dotenv import load_dotenv
 
 from pathlib import Path
 
@@ -28,6 +29,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+load_dotenv()
+
+# Load all constants
+CLIENT_ID = os.getenv("GO_HIGH_LEVEL_CLIENT_ID")
+CLIENT_SECRET = os.getenv("GO_HIGH_LEVEL_CLIENT_SECRET")
+TOKEN_REFRESH_THRESHOLD_MINUTES = int(os.getenv("TOKEN_REFRESH_THRESHOLD_MINUTES"))
+EMAIL_TO=str(os.getenv("EMAIL_TO")).split(",")
 
 # Application definition
 
