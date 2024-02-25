@@ -8,3 +8,5 @@ sharif.mubarak@amp-ignite.ai,khalil.kamal@amp-ignite.ai
 CreateContactException(status_code=400, response_text={"statusCode":400,"message":"This location does not allow duplicated contacts.","meta":{"contactId":"Xc9hvBJ4iV4Ofa92LzVV","matchingField":"phone"},"error":"Bad Request","traceId":"44cada3d-fecb-495c-be59-d5942f1b75a3"})
 
 Add a inbound message to the existing conversation
+
+Add notification trigger back
