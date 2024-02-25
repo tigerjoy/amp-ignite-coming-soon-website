@@ -12,9 +12,11 @@ from coming_soon_website.models import ApiToken, ApiTokenRefreshLog, ContactForm
 
 load_dotenv()
 
+# Load all constants
 CLIENT_ID = os.getenv("GO_HIGH_LEVEL_CLIENT_ID")
 CLIENT_SECRET = os.getenv("GO_HIGH_LEVEL_CLIENT_SECRET")
 TOKEN_REFRESH_THRESHOLD_MINUTES = int(os.getenv("TOKEN_REFRESH_THRESHOLD_MINUTES"))
+EMAIL_TO=str(os.getenv("EMAIL_TO")).split(",")
 
 import requests
 
@@ -66,6 +68,29 @@ API_ENDPOINTS = {
         "payload": {
             "locationId": "",
             "contactId": "",
+        },
+        "headers": {
+            "Authorization": "Bearer <token>",
+            "Version": "2021-04-15",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    },
+    "add_inbound_conversation_message": {
+        "url": "https://services.leadconnectorhq.com/conversations/messages/inbound",
+        "method": "POST",
+        "payload": {
+            "type": "Email", # There are more types like SMS, WhatsApp, GMB, IG, FB, Custom, WebChat, Live_Chat
+            "message": "",
+            "conversationId": "",
+            "html": "",
+            "subject": "",
+            "emailFrom": "",
+            "emailTo": "",
+            "emailCc": [],
+            "emailBcc": [],
+            "direction": "inbound",
+            "date": "" # Should be in ISO format ex. 2019-08-24T14:15:22Z
         },
         "headers": {
             "Authorization": "Bearer <token>",
@@ -269,8 +294,73 @@ def create_conversation(service_name, contact_form_data_id: int):
         if response.status_code in [201, 200]:
             json_response = response.json()
             print(json_response)
-            if "contact" in json_response and "id" in json_response["contact"]:
-                contact_form_data.contact_id = json_response["contact"]["id"]     
+
+            if "success" not in json_response or not json_response["success"]:
+                return False
+
+            if "conversation" in json_response and "id" in json_response["conversation"]:
+                contact_form_data.conversation_id = json_response["conversation"]["id"]     
+            contact_form_data.save()
+            return True
+        else:
+            print(response.text)
+            return False
+    except Exception as e:
+        print(e)
+        return False
+
+def add_inbound_conversation_message(service_name, contact_form_data_id: int):
+    ENDPOINT_KEY = "add_inbound_conversation_message"
+
+    if not contact_form_data_id:
+        print("contact_form_data_id is invalid, cannot create contact!")
+        return
+    
+    contact_form_data = ContactFormData.objects.filter(id=contact_form_data_id).first()
+
+    if not contact_form_data:
+        print("contact_form_data is invalid, cannot create contact!")
+        return False
+    
+    service_token_record = ApiToken.objects.filter(service_name=service_name).first()
+
+    if not service_token_record:
+        print(f"Did not find a service_token_record associated with {service_name}")
+        return
+    
+    payload = {
+        "type": "Email",
+        "message": contact_form_data.customer_message,
+        "conversationId": contact_form_data.conversation_id,
+        "html": f"<p>{contact_form_data.customer_message}</p>",
+        "subject": "[INQUIRY] From Contact Form",
+        "emailFrom": contact_form_data.email,
+        "emailTo": EMAIL_TO[0] if len(EMAIL_TO) >= 1 else [],
+        "emailCc": EMAIL_TO[1:] if len(EMAIL_TO) >= 2 else [],
+        "direction": "inbound",
+        "date": timezone.now().isoformat() 
+    }
+
+    headers = {
+        "Authorization": f"Bearer {service_token_record.access_token}"
+    }
+
+    try:
+        response = call_api(ENDPOINT_KEY, payload, headers)
+
+        if response.status_code in [201, 200]:
+            json_response = response.json()
+            print(json_response)
+
+            if "success" not in json_response or not json_response["success"]:
+                return False
+
+            if "messageId" in json_response:
+                contact_form_data.message_id = json_response["messageId"]
+
+            if "emailMessageId" in json_response:
+                contact_form_data.email_message_id = json_response["emailMessageId"]
+
             contact_form_data.save()
             return True
         else:
