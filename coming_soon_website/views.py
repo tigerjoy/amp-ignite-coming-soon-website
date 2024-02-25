@@ -49,7 +49,7 @@ def set_timezone(request):
     required_attributes = ["timezone", "formattedOffset"]
     all_required_attributes_available = all([attribute in request.POST for attribute in required_attributes])
     if request.method == 'POST' and all_required_attributes_available:
-        request.session['django_timezone'] = request.POST['timezone'] + " " + request.POST['formattedOffset']
+        request.session['django_timezone'] = request.POST['timezone']
         return JsonResponse({'message': 'Timezone set successfully'})
     elif request.method == 'GET':
         return JsonResponse({'message': 'Method not allowed'}, status=405)
