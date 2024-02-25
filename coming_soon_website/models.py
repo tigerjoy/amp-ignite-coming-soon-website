@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class ContactFormData(models.Model):
@@ -35,8 +36,15 @@ class ApiToken(models.Model):
     service_name = models.TextField(null=False, blank=False)
     access_token = models.TextField(null=False, blank=False)
     refresh_token = models.TextField(null=False, blank=False)
+    location_id = models.TextField(null=False, blank=False)
     expires_in = models.DateTimeField(null=False, blank=False)
     json_response = models.JSONField(null=False, blank=False)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+    modified_at = models.DateTimeField(default=timezone.now, editable=False)
+
+    def save(self, *args, **kwargs):
+        self.modified_at = timezone.now()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return (
@@ -45,7 +53,26 @@ class ApiToken(models.Model):
             f"service_name={self.service_name}, "
             f"access_token={self.access_token}, "
             f"refresh_token={self.refresh_token}, "
+            f"location_id={self.location_id}, "
             f"expires_in={self.expires_in}, "
             f"json_response={self.json_response}"
+            f"created_at={self.created_at}"
+            f"modified_at={self.modified_at}"
             f")"
+        )
+    
+class ApiTokenRefreshLog(models.Model):
+    id = models.AutoField(primary_key=True)
+    api_token = models.ForeignKey('ApiToken', on_delete=models.PROTECT)
+    is_refresh_successful = models.BooleanField(default=False)
+    error_log = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+
+    def __str__(self):
+        return (
+            f"ApiTokenRefreshLog(id={self.id}, "
+            f"api_token_id={self.api_token_id}, "
+            f"is_refresh_successful={self.is_refresh_successful}, "
+            f"error_log={self.error_log}, "
+            f"created_at={self.created_at})"
         )
