@@ -4,3 +4,4 @@ __pycache__/
 .vscode
 linux_env/
 env/
+*.log
