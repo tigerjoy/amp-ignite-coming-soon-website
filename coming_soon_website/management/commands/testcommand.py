@@ -1,13 +1,19 @@
 from django.core.management.base import BaseCommand
 import coming_soon_website.scripts.go_high_level_helper as ghlh
+from coming_soon_website.models import ContactFormData
 
 class Command(BaseCommand):
     help = 'Commands for testing management scripts'
 
     def handle(self, *args, **kwargs):
-        is_access_token_valid = ghlh.is_access_token_valid("GoHighLevel.ContactFormSubmission")
+        SERVICE_NAME = "GoHighLevel.ContactFormSubmission"
+        contact_form_data = ContactFormData.objects.filter(id=2).first()
+        is_access_token_valid = ghlh.is_access_token_valid(SERVICE_NAME)
+        
         print("Is access token valid?", is_access_token_valid)
         
-        if is_access_token_valid:
+        if not is_access_token_valid or True:
             ghlh.refresh_access_token("GoHighLevel.ContactFormSubmission")
+        
+        ghlh.create_contact("GoHighLevel.ContactFormSubmission", contact_form_data)
 
