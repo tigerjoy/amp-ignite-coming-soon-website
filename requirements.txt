@@ -10,9 +10,12 @@ django-compat==1.0.15
 django-crontab==0.7.1
 django4-background-tasks==1.2.9
 frozenlist==1.4.1
+gunicorn==21.2.0
 idna==3.6
 maxminddb==2.5.2
 multidict==6.0.5
+packaging==23.2
+psycopg2-binary==2.9.9
 python-dotenv==1.0.1
 pytz==2024.1
 requests==2.31.0
