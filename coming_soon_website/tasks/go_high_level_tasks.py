@@ -42,7 +42,7 @@ def save_contact_flow(contact_form_data_id: int, service_name):
         except Exception as e:
             # Give up! Fail silently!
             print(e)
-            break
+            return
     
     contact_form_data = ContactFormData.objects.filter(id=contact_form_data_id).first()
     if contact_form_data:
