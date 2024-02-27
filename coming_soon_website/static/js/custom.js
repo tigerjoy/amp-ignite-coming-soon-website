@@ -294,7 +294,7 @@ $(function () {
   $("#notify-form").submit(function () { //Change
     debounce(function () {
       console.log("Started submitting notfication form...");
-      var csrftoken = $('[name="csrfmiddlewaretoken"]').val();
+      var csrftoken = $(this).find('[name="csrfmiddlewaretoken"]').val();
       var th = $("#notify-form");
       console.log("Form data serialized: ", th.serialize());
       // Add the loader overlay on the form to prevent any further
@@ -389,7 +389,7 @@ $(function () {
           // Error handling
           console.log('Error submitting form');
 
-          var th = $("#contact-form");
+          var th = $("#notify-form");
 
           th.queue(function (next) {
             // Step 1
@@ -447,11 +447,23 @@ $(function () {
               next();
             });
 
+            // Step 4:
+            $(this).delay(5000).queue(function (next) {
+              // Done Functions
+              var th = $("#notify-form");
+              $('.notify').find('.subscription-error').removeClass('is-visible');
+              th.delay(300).removeClass('is-hidden');
+              th.trigger("reset");
+              $("#notify-close").click();
+              next();
+            });
+
             next();
           });
         }
       });
     })();
+    return false;
   });
   // --------------------------------------------- //
   // Notify Form End
