@@ -50,8 +50,31 @@
       window.endpoints = {
         "setTimezone": "{% url 'set_timezone' %}",
         "submitContactDetails": "{% url 'submit_contact_details' %}",
+        "submitNotificationDetails": "{% url 'submit_notification_details' %}",
       };
     </script>
+
+    <style>
+      /* Apply transitions to the spinner and tick */
+      #spinner, #tick, #loading-overlay, #cross
+      #notify-spinner, #notify-tick, #notify-loading-overlay, #notify-cross {
+        transition: opacity 0.5s;
+      }
+
+      /* Hide the spinner */
+      .hidden {
+        opacity: 0 !important;
+      }
+
+      /* Show the tick */
+      .visible {
+        opacity: 1 !important;
+      }
+
+      .d-none {
+        display: none !important;
+      }
+    </style>
   </head>
 
   <body>
@@ -835,26 +858,6 @@
                             </div>
                           </div>
                         </div>
-                        <style>
-                          /* Apply transitions to the spinner and tick */
-                          #spinner, #tick, #loading-overlay {
-                            transition: opacity 0.5s;
-                          }
-
-                          /* Hide the spinner */
-                          .hidden {
-                            opacity: 0 !important;
-                          }
-
-                          /* Show the tick */
-                          .visible {
-                            opacity: 1 !important;
-                          }
-
-                          .d-none {
-                            display: none !important;
-                          }
-                        </style>
                         <div id="loading-overlay" class="d-none rounded-5" style="color: var(--t-bright); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.5); opacity: 0; transition: all 0.5s;">
                           <div class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">
                             <div id="spinner" class="spinner-border text-primary" style="width: 6rem; height: 6rem;" role="status">
@@ -931,13 +934,26 @@
             <!-- Reply Messages End-->
 
             <!-- Notify Contact Form Start-->
-            <form class="form notify-form form-light">
+            <form class="form notify-form form-light" id="notify-form">
               <input type="email" placeholder="Your Email" required>
-              <button class="btn btn-default btn-filled hover-anim hover-accent" type="submit">
+              <button class="btn btn-default btn-filled hover-anim hover-accent" type="submit" id="notify-submit-btn">
                 <em></em>
                 <i class="ph ph-paper-plane"></i>
                 <span class="btn-caption">Submit</span>
               </button>
+              <div id="notify-loading-overlay" class="d-none rounded-5" style="color: var(--t-bright); position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.5); opacity: 0; transition: all 0.5s;">
+                <div class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">
+                  <div id="notify-spinner" class="spinner-border text-primary" style="width: 6rem; height: 6rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                  <div id="notify-tick" class="tick d-none" style="opacity: 0; color: var(--secondary);font-size: 8rem;">
+                    <i class="ph ph-check-circle"></i> <!-- Adjust the icon as needed -->
+                  </div>
+                  <div id="notify-cross" class="cross d-none" style="opacity: 0; color: #E3242B;font-size: 8rem;">
+                    <i class="ph ph-x"></i> <!-- Adjust the icon as needed -->
+                  </div>
+                </div>
+              </div>
             </form>
             <!-- Notify Contact Form End-->
 
