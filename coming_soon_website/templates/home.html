@@ -935,7 +935,8 @@
 
             <!-- Notify Contact Form Start-->
             <form class="form notify-form form-light" id="notify-form">
-              <input type="email" placeholder="Your Email" required>
+              {% csrf_token %}
+              <input type="email" name="email" placeholder="Your Email" required>
               <button class="btn btn-default btn-filled hover-anim hover-accent" type="submit" id="notify-submit-btn">
                 <em></em>
                 <i class="ph ph-paper-plane"></i>
