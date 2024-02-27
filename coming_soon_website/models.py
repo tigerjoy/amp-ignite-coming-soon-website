@@ -2,6 +2,22 @@ from django.db import models
 from django.utils import timezone
 
 # Create your models here.
+class NotificationFormData(models.Model):
+    id = models.AutoField(primary_key=True, null=False, blank=False)
+    ip_address = models.CharField(max_length=50, blank=False, null=False)
+    timezone = models.CharField(max_length=50, blank=False, null=False)
+    email = models.EmailField(blank=False, null=False)
+
+    def __str__(self):
+        return (
+            f"NotificationFormData("
+            f"id={self.id}, "
+            f"ip_address={self.ip_address}, "
+            f"timezone={self.timezone}, "
+            f"email={self.email}"
+            ")"
+        )
+
 class ContactFormData(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     name = models.TextField(blank=False, null=False)
@@ -22,7 +38,7 @@ class ContactFormData(models.Model):
     def __str__(self):
         return (
             f"ContactFormData("
-            f"id={self.id}"
+            f"id={self.id}, "
             f"name={self.name}, "
             f"company={self.company}, "
             f"email={self.email}, "
@@ -80,11 +96,12 @@ class ApiCallErrorLog(models.Model):
 
     def __str__(self):
         return (
-            f"ApiCallErrorLog(id={self.id}, "
+            f"ApiCallErrorLog("
+            f"id={self.id}, "
             f"api_token={self.api_token}, "
             f"contact_form_data={self.contact_form_data}, "
-            f"is_refresh_successful={self.is_refresh_successful}, "
             f"error_log={self.error_log}, "
-            f"created_at={self.created_at}"
+            f"created_at={self.created_at}, "
+            f"error_type={self.error_type}, "
             ")"
         )
