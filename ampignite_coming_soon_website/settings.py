@@ -51,7 +51,7 @@ ENVIRONMENT = os.getenv("ENVIRONMENT")
 CRONTAB_LOCK_JOBS = True
 
 CRONJOBS = [
-    ("* */1 * * *", 'django.core.management.call_command', ['process_tasks'])
+    ("0 * * * *", 'django.core.management.call_command', ['process_tasks'])
 ]
 
 CRONTAB_COMMAND_SUFFIX = f'>> "{CRON_JOBS_LOG_FILE_PATH}" 2>&1'
