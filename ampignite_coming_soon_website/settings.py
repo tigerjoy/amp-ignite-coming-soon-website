@@ -44,6 +44,9 @@ DATABASE_NAME = os.getenv("DATABASE_NAME")
 DATABASE_USERNAME = os.getenv("DATABASE_USERNAME")
 DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
 
+# Environment
+ENVIRONMENT = os.getenv("ENVIRONMENT")
+
 # django-crontab definitions
 CRONTAB_LOCK_JOBS = True
 
@@ -103,7 +106,7 @@ WSGI_APPLICATION = 'ampignite_coming_soon_website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-if DEBUG:
+if ENVIRONMENT == "local":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
