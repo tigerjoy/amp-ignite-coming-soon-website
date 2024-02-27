@@ -23,6 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name="home"),
     path('submit-contact-details/', views.submit_contact_details, name="submit_contact_details"),
+    path('submit-notification-details/', views.submit_notification_details, name="submit_notification_details"),
     path('set-timezone/', views.set_timezone, name="set_timezone"),
-
 ]
