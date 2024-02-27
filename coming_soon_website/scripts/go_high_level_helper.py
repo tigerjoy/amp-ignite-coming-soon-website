@@ -149,6 +149,8 @@ def call_api(endpoint_key, custom_payload=None, custom_headers=None):
     try:
         if method == "GET":
             response = requests.get(url, params=payload, headers=headers)
+        elif method == "POST" and ("Content-Type" in headers and "form-urlencoded" in headers["Content-Type"]):
+            response = requests.post(url, data=payload, headers=headers)
         elif method == "POST":
             response = requests.post(url, json=payload, headers=headers)
 
