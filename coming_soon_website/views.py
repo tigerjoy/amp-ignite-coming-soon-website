@@ -23,7 +23,9 @@ def submit_notification_details(request):
         timezone = request.session.get('django_timezone', 'UTC')
 
         form_data = {
-            "email": request.POST["email"]
+            "email": request.POST["email"],
+            'ip_address': ip_address,
+            'timezone': timezone,
         }
 
         notification_form_data = NotificationFormData(**form_data)
