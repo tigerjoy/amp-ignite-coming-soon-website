@@ -3079,6 +3079,12 @@ form textarea:required:valid {
   cursor: pointer;
 }
 
+.accordion__title span {
+  width: 92%;
+  text-wrap: wrap;
+  display: block;
+}
+
 .accordion__title:hover {
   -webkit-transition: all 0.5s ease-out;
   -moz-transition: all 0.5s ease-out;
