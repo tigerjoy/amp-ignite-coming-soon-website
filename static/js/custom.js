@@ -31,6 +31,43 @@
 // Table of Contents End
 // ------------------------------------------------
 
+function debounce(func, delay = 300) {
+  let timeoutId;
+  return function () {
+    const context = this;
+    const args = arguments;
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(function () {
+      func.apply(context, args);
+    }, delay);
+  };
+}
+
+const goToContactPage = debounce(function() {
+  let worksCloseBtn = $("#works-close");
+  worksCloseBtn.queue(function(next){
+    $(this).delay(300).queue(function(next){
+      $("#works-close").click(); 
+      console.log("Went back!")
+      next();
+    });
+
+    $(this).delay(300).queue(function(next){
+      $("#contact-trigger").click();
+      console.log("Triggered Contact page")
+      next();
+    });
+
+    $(this).delay(800).queue(function(next){
+      $('.form-container')[0].scrollIntoView({ behavior: 'smooth', block: 'end' });
+      console.log("Scrolled down")
+      next();
+    });
+
+    next();
+  })
+});
+
 $(window).on("load", function () {
 
   "use strict";
@@ -275,18 +312,6 @@ $(function () {
   // --------------------------------------------- //
   // Mailchimp Notify Form End
   // --------------------------------------------- //
-
-  function debounce(func, delay = 300) {
-    let timeoutId;
-    return function () {
-      const context = this;
-      const args = arguments;
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(function () {
-        func.apply(context, args);
-      }, delay);
-    };
-  }
 
   // --------------------------------------------- //
   // Notify Form Start

@@ -26,11 +26,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
-ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS")).split(",")
-
 # Load all constants
 CLIENT_ID = os.getenv("GO_HIGH_LEVEL_CLIENT_ID")
 CLIENT_SECRET = os.getenv("GO_HIGH_LEVEL_CLIENT_SECRET")
@@ -46,6 +41,11 @@ DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
 
 # Environment
 ENVIRONMENT = os.getenv("ENVIRONMENT")
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = ENVIRONMENT == "local"
+
+ALLOWED_HOSTS = str(os.getenv("ALLOWED_HOSTS")).split(",")
 
 # django-crontab definitions
 CRONTAB_LOCK_JOBS = True
