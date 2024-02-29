@@ -46,11 +46,11 @@ function debounce(func, delay = 300) {
 const goToContactPage = debounce(function() {
   let worksCloseBtn = $("#works-close");
   worksCloseBtn.queue(function(next){
-    $(this).delay(300).queue(function(next){
-      $("#works-close").click(); 
-      console.log("Went back!")
-      next();
-    });
+    // $(this).delay(300).queue(function(next){
+    //   $("#works-close").click(); 
+    //   console.log("Went back!")
+    //   next();
+    // });
 
     $(this).delay(300).queue(function(next){
       $("#contact-trigger").click();
