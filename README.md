@@ -12,3 +12,4 @@ Important URLs:
 6. https://ahrefs.com/blog/open-graph-meta-tags/
 7. https://ogp.me/
 8. https://yoast.com/academy/
+9. https://www.opengraph.xyz/
